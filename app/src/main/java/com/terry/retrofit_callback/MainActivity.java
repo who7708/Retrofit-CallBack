@@ -1,11 +1,12 @@
 package com.terry.retrofit_callback;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.terry.retrofit_callback.http.BaseBack;
 import com.terry.retrofit_callback.http.Rest;
@@ -48,50 +49,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.rxbutton:
-                Rest.getRestApi().getRxUser()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new RxSubscribe<User>() {
-                            @Override
-                            public void onSubscribe(@NonNull Disposable d) {
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
+        if (v.getId() == R.id.rxbutton) {
+            Rest.getRestApi().getRxUser()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new RxSubscribe<User>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
 
-                            @Override
-                            protected void onSuccess(User user) {
-                                textView.setText("使用了Rxjava的回调封装，返回结果：\n" +
-                                        user.toString());
-                            }
+                        @Override
+                        protected void onSuccess(User user) {
+                            textView.setText("使用了Rxjava的回调封装，返回结果：\n" + user.toString());
+                        }
 
-                            @Override
-                            public void onComplete() {
-                                progressBar.setVisibility(View.GONE);
-                            }
+                        @Override
+                        public void onComplete() {
+                            progressBar.setVisibility(View.GONE);
+                        }
 
-                            @Override
-                            protected void onFailed(int code, String msg) {
-                                textView.setText(code + "  " + msg);
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                break;
-            case R.id.button2:
-                Rest.getRestApi().getUser()
-                        .enqueue(new BaseBack<User>() {
-                            @Override
-                            protected void onSuccess(User user) {
-                                textView.setText("普通回调封装，返回结果：\n" +
-                                        user.toString());
-                            }
+                        @Override
+                        protected void onFailed(int code, String msg) {
+                            textView.setText(code + "  " + msg);
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+        } else if (R.id.button2 == v.getId()) {
+            Rest.getRestApi().getUser().enqueue(new BaseBack<User>() {
+                @Override
+                protected void onSuccess(User user) {
+                    textView.setText("普通回调封装，返回结果：\n" + user.toString());
+                }
 
-                            @Override
-                            protected void onFailed(int code, String msg) {
-                                textView.setText(code + "  " + msg);
-                            }
-                        });
-                break;
+                @Override
+                protected void onFailed(int code, String msg) {
+                    textView.setText(code + "  " + msg);
+                }
+            });
         }
     }
 }

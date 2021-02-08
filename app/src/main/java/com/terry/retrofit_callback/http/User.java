@@ -1,29 +1,43 @@
 package com.terry.retrofit_callback.http;
 
-/***
- * *
- * 名称：     User.
- * 作者：     Terry Tan
- * 创建时间：  on 2017/6/23.
- * 说明：     
- * *
- ***/
-
+import com.google.gson.annotations.SerializedName;
 
 public class User {
+    public long id;
+    @SerializedName("login")
+    public String nick;
+    public String name;
+    public long followers;
+    public long following;
 
-    public String id, name, img, sex, qianmin;
-    public int age;
+    public long getId() {
+        return id;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public long getFollowers() {
+        return followers;
+    }
+
+    public long getFollowing() {
+        return following;
+    }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
+                ", nick='" + nick + '\'' +
                 ", name='" + name + '\'' +
-                ", img='" + img + '\'' +
-                ", sex='" + sex + '\'' +
-                ", qianmin='" + qianmin + '\'' +
-                ", age=" + age +
+                ", followers=" + followers +
+                ", following=" + following +
                 '}';
     }
 }

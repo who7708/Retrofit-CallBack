@@ -1,12 +1,9 @@
 package com.terry.retrofit_callback.http;
 
-import java.net.ConnectException;
-
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import retrofit2.HttpException;
-
 
 /**
  * *
@@ -16,7 +13,7 @@ import retrofit2.HttpException;
  * *
  **/
 
-public abstract class RxSubscribe<T> implements Observer<BaseModel<T>> {
+public abstract class RxSubscribe<T> implements Observer<T> {
 
     public RxSubscribe() {
     }
@@ -37,15 +34,8 @@ public abstract class RxSubscribe<T> implements Observer<BaseModel<T>> {
     }
 
     @Override
-    public void onNext(BaseModel<T> baseModel) {
-        if (baseModel.code == 0) {
-            onSuccess(baseModel.data);
-        } else if (baseModel.code == 3) {
-            //比如 做token无效统一处理
-            onFailed(baseModel.code, baseModel.message);
-        } else {
-            onFailed(baseModel.code, baseModel.message);
-        }
+    public void onNext(T baseModel) {
+        onSuccess(baseModel);
     }
 
     @Override

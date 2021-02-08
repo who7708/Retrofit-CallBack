@@ -14,10 +14,12 @@ import retrofit2.http.GET;
 
 public interface RestAPI {
 
-    @GET("/userinfo")
-    Observable<BaseModel<User>> getRxUser();
+    @GET("/users/octocat")
+    // Observable<BaseModel<User>> getRxUser();
+    Observable<User> getRxUser();
 
-    @GET("/userinfo")
-    Call<BaseModel<User>> getUser();
+    @GET("/users/octocat")
+    // Call<BaseModel<User>> getUser();
+    Call<User> getUser();
 
 }
